@@ -14,4 +14,8 @@ The biography, experience, education, and skill details come from Owen_Shi_Resum
 
 `help`, `about`, `projects`, `experience`, `education`, `skills`, `contact`, `resume`, `github`, `clear`, `neofetch`, `theme`, `history`, `ls`, `pwd`, and `whoami`. Use up/down arrows for history and Tab for completion. Ctrl+L clears the terminal while the input is focused. This is a simulated shell; input is never executed on the server.
 
-Hosting remains private until the owner chooses to share or publish publicly.
+## GitHub Pages
+
+The public website is https://bi1ku.github.io/. `npm run dev:pages` starts the static development server; `npm run build:pages` creates `dist-pages/`. GitHub Actions builds and deploys each push to `main`. Select **GitHub Actions** under **Settings → Pages → Source** in the repository.
+
+This build reuses the same portfolio component and stylesheet without requiring a server. The original vinext/Sites build remains available through `npm run build`.
