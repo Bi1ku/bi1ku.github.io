@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Owen Shi | A personal shell",
-  description: "Owen Shi — Harvard student exploring computer science, electrical engineering, and applied mathematics. Explore my work in compilers, robotics, simulations, and full-stack development through an interactive terminal.",
+  description: "Owen Shi — Harvard student majoring in Electrical Engineering and Computer Science. Explore my work in compilers, robotics, simulations, and full-stack development through an interactive terminal.",
 };
 
 export default function RootLayout({
