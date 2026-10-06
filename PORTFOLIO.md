@@ -8,7 +8,7 @@ Run `npm ci`, then `npm run dev`. Run `npm run build` for the deployment build a
 
 ## Content
 
-The biography, experience, education, and skill details come from Owen_Shi_Resume.pdf. Featured repositories were checked against https://github.com/Bi1ku on September 14, 2026. Edit `app/page.tsx` to update content and commands, and `app/globals.css` to change the theme. Replace `public/Owen_Shi_Resume.pdf` to update the download.
+The biography, experience, education, and skill details come from Owen_Shi_Resume.pdf, with current Harvard club roles supplied directly by Owen in October 2026. Featured repositories were checked against https://github.com/Bi1ku on September 14, 2026. Edit `app/page.tsx` to update content and commands, and `app/globals.css` to change the theme. Replace `public/Owen_Shi_Resume.pdf` to update the download.
 
 ## Commands
 
