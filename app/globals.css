@@ -663,3 +663,22 @@ footer a {
     margin-left: 0;
   }
 }
+
+.simulation-demo {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.simulation-demo video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #f0f1ee;
+}
+.simulation-demo figcaption {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}

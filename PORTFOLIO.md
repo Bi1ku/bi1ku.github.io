@@ -25,3 +25,7 @@ The featured avionics flight computer was designed by Owen for HUAC Rocketry’s
 ## Requiem demo
 
 The Requiem section includes an 11-second GIF with explicit play/stop controls and a static poster. It does not autoplay. Assets and captured command output live in `public/projects/requiem/`. To regenerate with Pillow installed, run `python3 scripts/generate-requiem-demo.py /path/to/built/requiem`. The capture records the compiler commit and actual outputs; playback timing is illustrative, not a benchmark.
+
+## SpringForge demo
+
+Owen’s screen recording is embedded beneath the SpringForge description with native playback controls, a still poster, and a full-size video link. The original MP4 and extracted poster are in `public/projects/springforge/`. The section also links to the live GlowScript app. Playback is user-initiated.

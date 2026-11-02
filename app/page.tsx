@@ -383,6 +383,9 @@ export default function Home() {
               </p>
               <p className="tech">Python · VPython · Numerical integration</p>
               <div className="links">
+                <External href="https://www.glowscript.org/#/user/2008owenshi/folder/MyPrograms/program/SpringForge">
+                  Run simulation
+                </External>
                 <External href="https://github.com/Bi1ku/SpringForge">
                   Source code &amp; setup
                 </External>
@@ -412,6 +415,34 @@ export default function Home() {
                 </div>
               </dl>
             </div>
+            <figure className="simulation-demo">
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                poster="/projects/springforge/poster.jpg"
+                aria-label="SpringForge simulation demo"
+              >
+                <source src="/projects/springforge/demo.mp4" type="video/mp4" />
+                Your browser does not support video.{" "}
+                <a href="/projects/springforge/demo.mp4">
+                  Download the SpringForge demo
+                </a>
+                .
+              </video>
+              <figcaption>
+                <span>
+                  SpringForge · Three-spring system and custom-shape simulation
+                </span>
+                <a
+                  href="/projects/springforge/demo.mp4"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Watch full size ↗
+                </a>
+              </figcaption>
+            </figure>
           </article>
 
           <div className="more-projects">
