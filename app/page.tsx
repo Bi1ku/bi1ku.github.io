@@ -1,58 +1,372 @@
-"use client";
+import type { ReactNode } from "react";
 
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-
-const commands = ["help", "about", "projects", "experience", "education", "skills", "contact", "resume", "github", "clear", "neofetch", "theme", "history", "pwd", "ls"];
-type Project = {name:string; label:string; tech:string; description:string; tag:string; media?:{image:string; video:string; alt:string}};
-const projects: Project[] = [
-  {name:"requiem", label:"From source code to a virtual machine.", tech:"C11 · Bytecode · Language Design", description:"An object-oriented language with an optimizing compiler, portable bytecode, and a stack-based VM. Includes classes, inheritance, a disassembler, an embeddable C API, and regression tests.", tag:"01 / SYSTEMS"},
-  {name:"SpringForge", label:"Making the math move.", tech:"Python · VPython · Calculus", description:"A configurable spring-system simulator with nonlinear torque, numerical integration, and a polygon editor that calculates center of mass and inertia.", tag:"02 / SIMULATION"},
-  {name:"Model Rocket", label:"From CAD to launch and parachute deployment.", tech:"OpenRocket · Onshape · Laser cutting · 3D printing", description:"Researched, designed, and built a model rocket powered by a C6-5 motor. Used OpenRocket for rocket design and Onshape for CAD, then manufactured components with laser cutting and 3D printing. Flight-tested the finished rocket, with launch and parachute deployment captured on video.", tag:"03 / AEROSPACE", media:{image:"/projects/rocket/cad.png", video:"/projects/rocket/launch.mp4", alt:"Onshape CAD model of the rocket showing its nose cone, body, internal components, and fins."}},
-  {name:"Slipstream", label:"Built for the next lap.", tech:"Java · Processing · Networking", description:"A multiplayer racer with real-time state synchronization, terrain-aware physics, drifting, nitro, and pixel-based collisions.", tag:"04 / GAMES"},
-  {name:"SimplyGrades", label:"The classroom, modeled in code.", tech:"TypeScript · Next.js · Prisma · PostgreSQL", description:"A full-stack gradebook prototype with class rosters, assignments, grade entry, configurable grading-policy categories, and dashboard charts. A relational data model connects teachers, students, classes, and grades.", tag:"05 / FULL STACK"},
-  {name:"FutureVoice", label:"Making civic information approachable.", tech:"React · TypeScript · Tailwind CSS · Congress.gov API", description:"Built with Leo Ling for the Congressional App Challenge in NY’s 10th district. Helps young voters explore congressional representatives and browse bills with filters, pagination, and detail views.", tag:"06 / CIVIC TECH"},
-  {name:"bik", label:"A language, from scratch.", tech:"C · MIPS Assembly · CMake", description:"A work-in-progress compiler targeting MIPS assembly, with a custom lexer, AST parser, variable environments, and constant folding. An exploration of the compiler pipeline; code generation is still incomplete.", tag:"07 / COMPILERS"},
-  {name:"ascii", label:"Pixels meet the terminal.", tech:"Python · ASCII", description:"Convert videos into ASCII and watch them play right in the terminal. Yes, including Bad Apple.", tag:"08 / EXPERIMENTS"},
-];
-type Entry = {command:string; kind:string; text?:string};
-function Prompt({command}:{command?:string}) { return <div className="prompt"><span className="green">visitor</span><span className="muted">@</span><span className="green">owen</span><span className="muted">:</span><span className="purple">~</span><span className="dollar">$</span>{command && <span className="command-text">{command}</span>}</div>; }
-function External({href,children}:{href:string;children:React.ReactNode}){return <a href={href} target="_blank" rel="noreferrer">{children} <span aria-hidden="true">↗</span></a>}
-function Output({entry,run}:{entry:Entry;run:(s:string)=>void}) {
-  if(entry.kind==="welcome") return <div className="welcome"><div className="boot"><span className="green">[ OK ]</span> A little corner of the internet, built from curiosity.</div><div className="identity"><pre className="ascii" aria-hidden="true">{` ██████╗ ██╗    ██╗███████╗███╗   ██╗
-██╔═══██╗██║    ██║██╔════╝████╗  ██║
-██║   ██║██║ █╗ ██║█████╗  ██╔██╗ ██║
-██║   ██║██║███╗██║██╔══╝  ██║╚██╗██║
-╚██████╔╝╚███╔███╔╝███████╗██║ ╚████║
- ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═══╝`}</pre><div className="identity-meta"><span className="mini-label">HELLO, WORLD. I’M</span><h1>Owen Shi<span className="green">.</span></h1><span className="handle">@Bi1ku</span><div className="palette"><i/><i/><i/><i/><i/><i/></div></div></div><p className="intro">At <span className="cream">Harvard.</span> Majoring in Electrical Engineering and Computer Science.<br/>Building things from the metal up—and occasionally making them drift.</p><div className="interests"><span>systems programming</span><span>robotics</span><span>full-stack development</span></div><p className="tip">Welcome to my interactive portfolio.<br/>Type <button onClick={()=>run("help")}>help</button> to explore, or pick a command below.</p><div className="quick-commands">{["about","projects","experience","contact"].map(c=><button onClick={()=>run(c)} key={c}><span className="green">./</span>{c}<span className="shortcut-arrow">↵</span></button>)}</div></div>;
-  if(entry.kind==="projects") return <div className="output"><div className="section-label">SELECTED PROJECTS <span>{projects.length} directories</span></div><div className="projects">{projects.map(p=><article key={p.name} className={p.media ? "project-with-media" : undefined}><div className="project-tag">{p.tag}</div><h3>{p.media ? p.name : <External href={`https://github.com/Bi1ku/${p.name}`}>{p.name}</External>}</h3><p className="project-label">{p.label}</p><p>{p.description}</p>{p.media && <figure className="project-media"><a className="project-preview" href={p.media.image} target="_blank" rel="noreferrer" aria-label="View full-size rocket CAD image"><img src={p.media.image} alt={p.media.alt} width={1253} height={450} loading="lazy"/></a><figcaption>Onshape CAD · Assembly and internal components</figcaption><div className="project-media-actions"><External href={p.media.image}>View CAD image</External><External href={p.media.video}>Watch launch &amp; parachute deployment</External></div></figure>}<div className="tech">{p.tech}</div></article>)}</div><p className="footnote">More experiments, dotfiles, and works in progress on <External href="https://github.com/Bi1ku?tab=repositories">GitHub</External>.</p></div>;
-  if(entry.kind==="about"||entry.kind==="neofetch") return <div className="output"><h2>Owen Shi <span className="muted">/ about.txt</span></h2><p>I’m a Harvard College freshman majoring in Electrical Engineering and Computer Science. I’m originally from Queens, New York, and a Stuyvesant High School graduate.</p><p>I’m currently an engineer at the Harvard Undergraduate Aerospace Collective (Rocketry) and an Electrical/Software Engineer for the Harvard Undergraduate Robotics Club. I joined both in September 2026.</p><p>My work spans compilers, autonomous robots, physics simulations, and web applications. I like getting under the hood: from turning source code into MIPS assembly to getting a robot to find its way around a field.</p><dl><dt>based in</dt><dd>Queens, NY / Cambridge, MA</dd><dt>on GitHub</dt><dd><External href="https://github.com/Bi1ku">@Bi1ku</External></dd><dt>toolbox</dt><dd>Neovim, C, Python, TypeScript, and a healthy amount of curiosity</dd></dl></div>;
-  if(entry.kind==="experience") return <div className="output"><h2>Experience <span className="muted">/ the work so far</span></h2><div className="timeline"><article><div className="date">SEP 2026 — PRESENT</div><h3>Harvard Undergraduate Aerospace Collective (Rocketry)</h3><p className="green">Engineer</p></article><article><div className="date">SEP 2026 — PRESENT</div><h3>Harvard Undergraduate Robotics Club</h3><p className="green">Electrical/Software Engineer</p></article><article><div className="date">SEP 2023 — JUL 2026</div><h3>Stuy Fusion · FTC 479</h3><p className="green">Vice President</p><p>Built AprilTag localization and autonomous alignment, multithreaded controls running at 10 kHz, and a reusable command-based architecture. Developed the team website and taught workshops across a team of ~32 members.</p></article><article><div className="date">FEB 2022 — SEP 2025</div><h3>BCTCio</h3><p className="green">Full-Stack Web Developer Intern</p><p>Built full-stack web features and maintained a UI library with 30+ production-ready components. Helped develop Future Sphere Education’s portal for 4,000+ active students, 300+ classes, and 12+ teachers.</p></article><article><div className="date">JUN — SEP 2024</div><h3>NYC Department of Health and Mental Hygiene</h3><p className="green">Information Technology Specialist Intern</p><p>Supported recovery across 3,000+ computers following the CrowdStrike outage and imaged 62 PCs. Upgraded workstations and audited hardware inventory.</p></article></div></div>;
-  if(entry.kind==="education") return <div className="output"><h2>Education</h2><h3>Harvard College</h3><p>Freshman · Cambridge, MA</p><p>Major: Electrical Engineering and Computer Science.</p><h3>Stuyvesant High School</h3><p>Advanced Regents Diploma · Manhattan, NY</p><p className="green">SAT 1570 / 800 Math · GPA 97.45</p></div>;
-  if(entry.kind==="skills") return <div className="output"><h2>What’s in the toolbox?</h2><dl><dt>languages</dt><dd>C, C++, Java, Kotlin, Lua, Go, JavaScript, TypeScript, Python</dd><dt>web</dt><dd>React, Next.js, Node.js, HTML, CSS, Tailwind CSS, Material UI</dd><dt>data & cloud</dt><dd>PostgreSQL, Prisma, MongoDB, Supabase, AWS, Google Cloud</dd><dt>tools</dt><dd>Neovim, VS Code, Android Studio, CMake</dd><dt>human languages</dt><dd>English (fluent), Spanish (intermediate), Mandarin Chinese (conversant)</dd></dl></div>;
-  if(entry.kind==="contact") return <div className="output"><h2>Let’s build something.</h2><p>Have a project, an interesting problem, or just want to say hi?</p><div className="contact-links"><a href="mailto:2008owenshi@gmail.com">2008owenshi@gmail.com ↗</a><External href="https://github.com/Bi1ku">github.com/Bi1ku</External></div></div>;
-  if(entry.kind==="resume") return <div className="output"><h2>The one-page version.</h2><p>Education, experience, projects, and skills in a single PDF.</p><a className="download" href="/Owen_Shi_Resume.pdf" download>↓ Download my resume</a></div>;
-  if(entry.kind==="github") return <div className="output"><External href="https://github.com/Bi1ku">Explore @Bi1ku on GitHub</External></div>;
-  if(entry.kind==="help") return <div className="output"><h2>A small field guide.</h2><p>Click a command or type it at the prompt.</p><div className="help-grid">{[["about","A little about me"],["projects","Things I’ve built"],["experience","Where I’ve worked"],["education","Where I’m learning"],["skills","My toolbox"],["contact","Get in touch"],["resume","Download the PDF"],["github","Explore my repositories"],["clear","A fresh terminal"],["theme","Switch green / amber"],["history","Your command history"],["neofetch","System info, Owen edition"]].map(([c,d])=><button key={c} onClick={()=>run(c)}><span>{c}</span><span>{d}</span></button>)}</div><p className="footnote">↑ ↓ history · Tab autocomplete · Ctrl+L clear · Ctrl+C cancel</p></div>;
-  return <pre className="plain-output">{entry.text}</pre>;
+function External({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer">
+      {children} <span aria-hidden="true">↗</span>
+    </a>
+  );
 }
-export default function Home(){
-  const [entries,setEntries]=useState<Entry[]>([{command:"./welcome.sh",kind:"welcome"}]);
-  const [value,setValue]=useState(""); const [history,setHistory]=useState<string[]>([]); const [historyIndex,setHistoryIndex]=useState(-1); const [amber,setAmber]=useState(false); const [active,setActive]=useState("home");
-  const input=useRef<HTMLInputElement>(null); const bottom=useRef<HTMLDivElement>(null); const initial=useRef(true);
-  useEffect(()=>{if(initial.current){initial.current=false;return;}bottom.current?.scrollIntoView({behavior:"smooth",block:"nearest"});},[entries]);
-  function run(raw:string){const command=raw.trim();if(!command)return;const key=command.toLowerCase().replace(/^\.\//,"");setHistory(h=>[...h,command]);setHistoryIndex(-1);setValue("");let entry:Entry={command,kind:key};
-    if(key==="clear"){setEntries([]);setActive("clear");input.current?.focus({preventScroll:true});return;}
-    if(key==="home"||key==="welcome"||key==="welcome.sh")entry.kind="welcome";
-    else if(key==="ls"||key==="ls -la")entry={command,kind:"text",text:"about.txt   projects/   experience/   education.txt   skills.txt   contact.txt   resume.pdf"};
-    else if(key.startsWith("cat ")){const file=key.slice(4).replace(/\.(txt|pdf)$/,"");entry=commands.includes(file)?{command,kind:file}:{command,kind:"text",text:`cat: ${key.slice(4)}: No such file. Try ls.`};}
-    else if(key==="pwd")entry.text="/home/owen";
-    else if(key==="history")entry.text=[...history,command].map((h,i)=>`${String(i+1).padStart(3)}  ${h}`).join("\n");
-    else if(key==="theme"){setAmber(!amber);entry.text=`Theme switched to ${amber?"phosphor green":"warm amber"}.`;}
-    else if(key==="whoami")entry={command,kind:"text",text:"visitor — make yourself at home."};
-    else if(key==="sudo"||key.startsWith("sudo "))entry={command,kind:"text",text:"Nice try. You’re already welcome here; no elevated privileges needed."};
-    else if(!commands.includes(key)&&entry.kind!=="welcome")entry={command,kind:"text",text:`command not found: ${command}\nType help to see what’s available.`};
-    setEntries(e=>[...e,entry]);setActive(entry.kind);input.current?.focus({preventScroll:true});
-  }
-  function onKey(e:KeyboardEvent<HTMLInputElement>){if(e.key==="ArrowUp"){e.preventDefault();const next=historyIndex<0?history.length-1:Math.max(0,historyIndex-1);setHistoryIndex(next);setValue(history[next]||"");}else if(e.key==="ArrowDown"){e.preventDefault();const next=historyIndex+1;if(historyIndex<0||next>=history.length){setHistoryIndex(-1);setValue("");}else{setHistoryIndex(next);setValue(history[next]);}}else if(e.key==="Tab"){e.preventDefault();const found=commands.filter(c=>c.startsWith(value.toLowerCase()));if(found.length===1)setValue(found[0]);else if(found.length>1)setEntries(es=>[...es,{command:value,kind:"text",text:found.join("  ")}]);}else if(e.ctrlKey&&e.key==="l"){e.preventDefault();run("clear");}else if(e.ctrlKey&&e.key==="c"){e.preventDefault();setValue("");}}
-  return <div className={amber?"desktop amber":"desktop"}><header className="desktop-bar"><a className="brand" href="#" onClick={e=>{e.preventDefault();run("home")}}><span className="brand-symbol">&gt;_</span> owen<span className="muted">.shi</span></a><div className="desktop-center">personal workspace</div><div className="desktop-right"><span className="status-dot"/>Harvard · Exploring</div></header><main><div className="workspace-heading"><span><span className="green">~</span> / home / owen</span><span className="muted">a work in progress, like its author.</span></div><section className="terminal" aria-label="Interactive portfolio terminal"><div className="titlebar"><div className="window-dots" aria-hidden="true"><i/><i/><i/></div><span>visitor@owen: ~</span><span className="shell-label">zsh</span></div><div className="terminal-layout"><aside><div className="explorer-label">EXPLORER</div><button className={active==="home"||active==="welcome"?"selected":""} onClick={()=>run("home")}><span>⌂</span> ~/owen</button><div className="tree">{["about","projects","experience","education","skills","contact"].map(c=><button className={active===c?"selected":""} key={c} onClick={()=>run(c)}><span className={c==="projects"?"purple":"muted"}>{c==="projects"||c==="experience"?"▸":"≡"}</span>{c}{c==="projects"||c==="experience"?"/":".txt"}</button>)}</div><button onClick={()=>run("resume")}><span className="peach">↓</span> resume.pdf</button><div className="aside-bottom"><span className="status-dot"/> always curious<br/><span className="muted">made of code & coffee</span></div></aside><div className="terminal-pane"><div className="terminal-scroll"><div className="session-line">OWEN’S PERSONAL SHELL <span>v1.0.0</span></div>{entries.map((entry,i)=><section className="entry" key={i}><Prompt command={entry.command}/><Output entry={entry} run={run}/></section>)}<form className="command-form" onSubmit={e=>{e.preventDefault();run(value)}}><label htmlFor="terminal-input" className="sr-only">Enter a portfolio command</label><Prompt/><input id="terminal-input" ref={input} value={value} onChange={e=>setValue(e.target.value)} onKeyDown={onKey} placeholder="type a command…" autoComplete="off" autoCapitalize="none" spellCheck={false}/><button type="submit" aria-label="Run command">↵</button></form><div ref={bottom}/></div><div className="terminal-status"><span><b> NORMAL </b><span className="green"> ⎇ </span> main</span><span>UTF-8 <span className="muted">│</span> interactive portfolio</span></div></div></div></section><footer><span>Not a real shell. Just a real person who likes them.</span><div><button onClick={()=>{input.current?.focus();run("help")}}>help</button><a href="https://github.com/Bi1ku" target="_blank" rel="noreferrer">GitHub ↗</a><a href="mailto:2008owenshi@gmail.com">Say hello ↗</a></div></footer></main></div>;
+
+const otherProjects = [
+  {
+    name: "Slipstream",
+    category: "Multiplayer racing game",
+    tech: "Java · Processing · Networking",
+    description:
+      "Built a client-server racing game with synchronized player state, momentum-based driving, drifting, nitro, and terrain-dependent speed limits.",
+  },
+  {
+    name: "SimplyGrades",
+    category: "Gradebook prototype",
+    tech: "TypeScript · Next.js · Prisma · PostgreSQL",
+    description:
+      "Built class rosters, assignment and grade entry, configurable grading categories, and dashboard charts around a relational model of teachers, students, and classes. A prototype with unfinished statistics endpoints.",
+  },
+  {
+    name: "FutureVoice",
+    category: "Congressional App Challenge",
+    tech: "React · TypeScript · Congress.gov API",
+    description:
+      "Built with Leo Ling for New York’s 10th district. Lets young voters look up congressional representatives and browse bills using filters, pagination, and detail views.",
+  },
+  {
+    name: "bik",
+    category: "Compiler · In progress",
+    tech: "C · MIPS Assembly · CMake",
+    description:
+      "Implemented a lexer, AST parser, variable environments, and constant folding for a compiler targeting MIPS assembly. Code generation is incomplete.",
+  },
+  {
+    name: "ascii",
+    category: "Video conversion",
+    tech: "Python",
+    description:
+      "Converts video frames into ASCII characters and plays the result in a terminal.",
+  },
+];
+const experience = [
+  {
+    dates: "Sep 2026 — Present",
+    organization: "Harvard Undergraduate Aerospace Collective",
+    role: "Engineer · Rocketry",
+  },
+  {
+    dates: "Sep 2026 — Present",
+    organization: "Harvard Undergraduate Robotics Club",
+    role: "Electrical / Software Engineer",
+  },
+  {
+    dates: "Sep 2023 — Jul 2026",
+    organization: "Stuy Fusion · FTC 479",
+    role: "Vice President",
+    description:
+      "Developed AprilTag localization and autonomous alignment, multithreaded controls, and a reusable command-based architecture. Built the team website and taught workshops for a team of about 32 members.",
+  },
+  {
+    dates: "Feb 2022 — Sep 2025",
+    organization: "BCTCio",
+    role: "Full-Stack Web Developer Intern",
+    description:
+      "Maintained a UI library with 30+ components and helped develop Future Sphere Education’s portal for 4,000+ active students, 300+ classes, and 12+ teachers.",
+  },
+  {
+    dates: "Jun — Sep 2024",
+    organization: "NYC Department of Health and Mental Hygiene",
+    role: "Information Technology Specialist Intern",
+    description:
+      "Supported recovery across 3,000+ computers after the CrowdStrike outage, imaged 62 PCs, and audited hardware inventory.",
+  },
+];
+
+export default function Home() {
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <a className="wordmark" href="#">
+          Owen Shi
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#about">About</a>
+          <a href="mailto:2008owenshi@gmail.com">
+            Contact <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </header>
+      <main id="main">
+        <section className="intro" aria-labelledby="intro-title">
+          <p className="eyebrow">
+            Electrical Engineering &amp; Computer Science · Harvard College
+          </p>
+          <h1 id="intro-title">Owen Shi</h1>
+          <p className="intro-description">
+            I build compilers, robotics software, and web applications. I’m a
+            freshman at Harvard, working with the undergraduate rocketry and
+            robotics teams.
+          </p>
+          <div className="links">
+            <External href="https://github.com/Bi1ku">GitHub</External>
+            <a href="mailto:2008owenshi@gmail.com">
+              Email <span aria-hidden="true">↗</span>
+            </a>
+            <a href="/Owen_Shi_Resume.pdf" target="_blank" rel="noreferrer">
+              Résumé <span className="link-note">PDF ↗</span>
+            </a>
+          </div>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-title">
+          <div className="section-heading">
+            <h2 id="projects-title">Projects</h2>
+            <span>Software &amp; engineering</span>
+          </div>
+          <article className="featured-project" id="requiem">
+            <div className="project-copy">
+              <p className="eyebrow">Language design</p>
+              <h3>Requiem</h3>
+              <p className="project-summary">
+                An object-oriented language, compiler, and virtual machine
+                written in C11.
+              </p>
+              <p>
+                The compiler turns source code into portable bytecode through a
+                lexer, Pratt parser, AST optimizer, and bytecode compiler. A
+                stack-based virtual machine executes the result.
+              </p>
+              <ul>
+                <li>
+                  Classes, inheritance, lexical scopes, and first-class
+                  functions.
+                </li>
+                <li>
+                  Constant folding, dead-code elimination, and bounded loop
+                  unrolling.
+                </li>
+                <li>Disassembler, embeddable C API, and regression tests.</li>
+              </ul>
+              <p className="tech">C11 · Bytecode · Virtual machines</p>
+              <div className="links">
+                <External href="https://github.com/Bi1ku/requiem">
+                  Source code
+                </External>
+                <External href="https://github.com/Bi1ku/requiem/blob/main/docs/architecture.md">
+                  Architecture
+                </External>
+              </div>
+            </div>
+            <figure className="code-figure">
+              <div className="figure-label">Requiem · example program</div>
+              <pre>
+                <code>{`class Counter {
+    init(start) {
+        this.value = start;
+    }
+    increment() {
+        this.value = this.value + 1;
+    }
+    get() { return this.value; }
+}
+
+var counter = Counter(40);
+counter.increment();
+counter.increment();
+println(counter.get());`}</code>
+              </pre>
+              <figcaption>
+                <span>Output</span>
+                <strong>42</strong>
+              </figcaption>
+            </figure>
+          </article>
+
+          <article className="rocket-project" id="model-rocket">
+            <div className="project-copy">
+              <p className="eyebrow">Design &amp; fabrication</p>
+              <h3>Model rocket</h3>
+              <p className="project-summary">
+                Designed, manufactured, and flight-tested a C6-5 model rocket.
+              </p>
+              <p>
+                I used OpenRocket for the rocket design and Onshape for CAD,
+                then made components with laser cutting and 3D printing. The
+                flight test captured both launch and parachute deployment.
+              </p>
+              <p className="tech">
+                OpenRocket · Onshape · Laser cutting · 3D printing
+              </p>
+            </div>
+            <div className="rocket-media">
+              <figure>
+                <a
+                  className="cad-link"
+                  href="/projects/rocket/cad.png"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="/projects/rocket/cad.png"
+                    width="1253"
+                    height="450"
+                    loading="lazy"
+                    alt="Onshape CAD assembly of the rocket, showing the nose cone, body, internal components, and fins."
+                  />
+                </a>
+                <figcaption>
+                  Onshape assembly and internal components ·{" "}
+                  <a
+                    href="/projects/rocket/cad.png"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View full size ↗
+                  </a>
+                </figcaption>
+              </figure>
+              <figure>
+                <video
+                  controls
+                  playsInline
+                  preload="none"
+                  aria-label="Model rocket launch and parachute deployment"
+                >
+                  <source src="/projects/rocket/launch.mp4" type="video/mp4" />
+                  Your browser does not support video.{" "}
+                  <a href="/projects/rocket/launch.mp4">
+                    Download the launch video
+                  </a>
+                  .
+                </video>
+                <figcaption>
+                  Flight test · Launch and parachute deployment
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article className="featured-project" id="springforge">
+            <div className="project-copy">
+              <p className="eyebrow">Physics simulation</p>
+              <h3>SpringForge</h3>
+              <p className="project-summary">
+                An interactive simulator for the rotational motion of
+                spring-wheel systems.
+              </p>
+              <p>
+                Configure up to three springs and adjust mass, radius,
+                attachment points, and spring constants. Compare the small-angle
+                approximation with a nonlinear model, with live plots of angular
+                position, velocity, and acceleration.
+              </p>
+              <p>
+                A polygon editor calculates the center of mass and moment of
+                inertia of custom shapes using the shoelace formula and
+                parallel-axis theorem.
+              </p>
+              <p className="tech">Python · VPython · Numerical integration</p>
+              <div className="links">
+                <External href="https://github.com/Bi1ku/SpringForge">
+                  Source code &amp; setup
+                </External>
+              </div>
+            </div>
+            <div className="project-notes">
+              <h4>What you can explore</h4>
+              <dl>
+                <div>
+                  <dt>System</dt>
+                  <dd>
+                    One to three springs attached to a rotating wheel or custom
+                    polygon.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Model</dt>
+                  <dd>
+                    Small-angle approximation or nonlinear rotational motion.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Measurements</dt>
+                  <dd>
+                    Angular position, velocity, and acceleration over time.
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+
+          <div className="more-projects">
+            <h3>Other projects</h3>
+            <div className="project-grid">
+              {otherProjects.map((project) => (
+                <article key={project.name}>
+                  <p className="eyebrow">{project.category}</p>
+                  <h4>
+                    <External href={`https://github.com/Bi1ku/${project.name}`}>
+                      {project.name}
+                    </External>
+                  </h4>
+                  <p>{project.description}</p>
+                  <p className="tech">{project.tech}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="experience" aria-labelledby="experience-title">
+          <div className="section-heading">
+            <h2 id="experience-title">Experience</h2>
+          </div>
+          <div className="experience-list">
+            {experience.map((item) => (
+              <article key={item.organization}>
+                <p className="dates">{item.dates}</p>
+                <div>
+                  <h3>{item.organization}</h3>
+                  <p className="role">{item.role}</p>
+                  {item.description && <p>{item.description}</p>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section id="about" className="about" aria-labelledby="about-title">
+          <div className="section-heading">
+            <h2 id="about-title">About</h2>
+          </div>
+          <div className="about-grid">
+            <div>
+              <p>
+                I’m from Queens, New York, and graduated from Stuyvesant High
+                School. I’m now studying Electrical Engineering and Computer
+                Science at Harvard College in Cambridge, Massachusetts.
+              </p>
+              <a href="/Owen_Shi_Resume.pdf" target="_blank" rel="noreferrer">
+                View résumé <span className="link-note">PDF ↗</span>
+              </a>
+            </div>
+            <div>
+              <h3>Tools I use</h3>
+              <p>
+                C, C++, Java, Python, TypeScript, React, Next.js, PostgreSQL,
+                Prisma, CMake, and Neovim.
+              </p>
+              <h3>Contact</h3>
+              <a href="mailto:2008owenshi@gmail.com">2008owenshi@gmail.com</a>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <span>Owen Shi</span>
+        <a href="#">Back to top ↑</a>
+      </footer>
+    </>
+  );
 }
