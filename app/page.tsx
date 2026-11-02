@@ -505,7 +505,13 @@ export default function Home() {
                 Studio · Neovim · CMake · AWS · Google Cloud · Supabase · KiCad
               </p>
               <h3>Contact</h3>
-              <a href="mailto:2008owenshi@gmail.com">2008owenshi@gmail.com</a>
+              <p className="contact-emails">
+                <a href="mailto:2008owenshi@gmail.com">2008owenshi@gmail.com</a>
+                <br />
+                <a href="mailto:oshi1@college.harvard.edu">
+                  oshi1@college.harvard.edu
+                </a>
+              </p>
             </div>
           </div>
         </section>
