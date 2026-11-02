@@ -105,9 +105,9 @@ export default function Home() {
           </p>
           <h1 id="intro-title">Owen Shi</h1>
           <p className="intro-description">
-            I build compilers, robotics software, and web applications. I’m a
-            freshman at Harvard, working with the undergraduate rocketry and
-            robotics teams.
+            I design electronics and build compilers, robotics software, and web
+            applications. I’m a freshman at Harvard, working with the
+            undergraduate rocketry and robotics teams.
           </p>
           <div className="links">
             <External href="https://github.com/Bi1ku">GitHub</External>
@@ -125,6 +125,141 @@ export default function Home() {
             <h2 id="projects-title">Projects</h2>
             <span>Software &amp; engineering</span>
           </div>
+          <article className="avionics-project" id="flight-computer">
+            <div className="avionics-overview">
+              <div className="project-copy">
+                <p className="eyebrow">HUAC Rocketry · IREC 10k</p>
+                <h3>Avionics flight computer</h3>
+                <p className="project-summary">
+                  Designed a custom flight-computer PCB for HUAC Rocketry’s IREC
+                  10k rocket.
+                </p>
+                <p>
+                  I designed the schematic and board layout around an STM32F405
+                  microcontroller, with pressure and inertial sensors, a microSD
+                  interface, and a dedicated programming header. The board
+                  brings sensing, storage, and power onto a single PCB.
+                </p>
+                <p>
+                  The layout places the battery input and regulator at one end,
+                  the sensor packages near the microcontroller, and the external
+                  connections at the other end. Four mounting holes secure the
+                  board in the avionics assembly.
+                </p>
+                <p className="tech">KiCad · PCB design · STM32 · I²C · SPI</p>
+                <div className="links">
+                  <External href="/projects/avionics/schematic.png">
+                    Full schematic
+                  </External>
+                  <External href="/projects/avionics/pcb-layout.png">
+                    PCB layout
+                  </External>
+                </div>
+              </div>
+              <figure className="avionics-render">
+                <a
+                  href="/projects/avionics/board-3d.png"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="/projects/avionics/board-3d.png"
+                    width="872"
+                    height="1342"
+                    alt="3D CAD render of Owen’s HUACR Avionics v1.0 PCB, showing the microcontroller, connectors, sensor packages, and four mounting holes."
+                  />
+                </a>
+                <figcaption>HUACR Avionics v1.0 · 3D PCB render</figcaption>
+              </figure>
+            </div>
+            <h4 className="technical-heading">Hardware architecture</h4>
+            <dl className="hardware-grid">
+              <div>
+                <dt>Controller</dt>
+                <dd>
+                  STM32F405RGTx with an external crystal, supply decoupling, and
+                  a reset connection. A 10-pin ARM JTAG/SWD header provides
+                  programming and debug access.
+                </dd>
+              </div>
+              <div>
+                <dt>Flight sensors</dt>
+                <dd>
+                  BMP581 barometer and LSM6DS3 IMU share the I²C bus, with
+                  pull-up resistors on the clock and data lines. Together they
+                  provide pressure and inertial measurements.
+                </dd>
+              </div>
+              <div>
+                <dt>Data storage</dt>
+                <dd>
+                  A microSD socket connects to the controller over SPI,
+                  providing a storage interface for flight-data logging.
+                </dd>
+              </div>
+              <div>
+                <dt>Power &amp; outputs</dt>
+                <dd>
+                  A 9 V battery input feeds an LD1117 3.3 V linear regulator.
+                  The schematic also includes a buzzer and a MOSFET-switched
+                  output with screw-terminal connections.
+                </dd>
+              </div>
+            </dl>
+            <div className="avionics-documents">
+              <figure>
+                <a
+                  href="/projects/avionics/schematic.png"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="/projects/avionics/schematic.png"
+                    width="1742"
+                    height="848"
+                    loading="lazy"
+                    alt="Flight-computer schematic showing the STM32F405, barometer, IMU, regulator, microSD socket, debug header, and output circuitry."
+                  />
+                </a>
+                <figcaption>
+                  Schematic ·{" "}
+                  <a
+                    href="/projects/avionics/schematic.png"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open full resolution to inspect component values ↗
+                  </a>
+                </figcaption>
+              </figure>
+              <figure className="pcb-detail">
+                <a
+                  href="/projects/avionics/pcb-layout.png"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="/projects/avionics/pcb-layout.png"
+                    width="876"
+                    height="1320"
+                    loading="lazy"
+                    alt="KiCad PCB layout showing component placement, routed traces, copper fill, and mounting holes."
+                  />
+                </a>
+                <figcaption>
+                  PCB layout ·{" "}
+                  <a
+                    href="/projects/avionics/pcb-layout.png"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View routing at full size ↗
+                  </a>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+
           <article className="featured-project" id="requiem">
             <div className="project-copy">
               <p className="eyebrow">Language design</p>
