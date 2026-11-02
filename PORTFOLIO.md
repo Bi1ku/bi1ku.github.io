@@ -21,3 +21,7 @@ This build reuses the same portfolio component and stylesheet without requiring 
 ## HUAC flight computer
 
 The featured avionics flight computer was designed by Owen for HUAC Rocketry’s IREC 10k rocket. Its schematic, routed PCB screenshot, and 3D render were supplied from Owen’s Desktop in November 2026 and are stored in `public/projects/avionics/`. Hardware descriptions are based on those images. The page does not claim completed firmware, bench testing, or flight validation.
+
+## Requiem demo
+
+The Requiem section includes an 11-second GIF with explicit play/stop controls and a static poster. It does not autoplay. Assets and captured command output live in `public/projects/requiem/`. To regenerate with Pillow installed, run `python3 scripts/generate-requiem-demo.py /path/to/built/requiem`. The capture records the compiler commit and actual outputs; playback timing is illustrative, not a benchmark.

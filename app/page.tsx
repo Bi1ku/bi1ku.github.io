@@ -1,3 +1,4 @@
+import ProjectDemo from "./project-demo";
 import type { ReactNode } from "react";
 
 function External({ href, children }: { href: string; children: ReactNode }) {
@@ -260,7 +261,7 @@ export default function Home() {
             </div>
           </article>
 
-          <article className="featured-project" id="requiem">
+          <article className="requiem-project" id="requiem">
             <div className="project-copy">
               <p className="eyebrow">Language design</p>
               <h3>Requiem</h3>
@@ -294,29 +295,7 @@ export default function Home() {
                 </External>
               </div>
             </div>
-            <figure className="code-figure">
-              <div className="figure-label">Requiem · example program</div>
-              <pre>
-                <code>{`class Counter {
-    init(start) {
-        this.value = start;
-    }
-    increment() {
-        this.value = this.value + 1;
-    }
-    get() { return this.value; }
-}
-
-var counter = Counter(40);
-counter.increment();
-counter.increment();
-println(counter.get());`}</code>
-              </pre>
-              <figcaption>
-                <span>Output</span>
-                <strong>42</strong>
-              </figcaption>
-            </figure>
+            <ProjectDemo />
           </article>
 
           <article className="rocket-project" id="model-rocket">

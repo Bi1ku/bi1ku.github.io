@@ -594,3 +594,72 @@ footer a {
     justify-self: center;
   }
 }
+
+.requiem-project {
+  padding: 42px 0 48px;
+  border-bottom: 1px solid var(--line);
+}
+.requiem-project > .project-copy {
+  max-width: 740px;
+}
+.project-demo {
+  margin-top: 30px;
+}
+.demo-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  background: #f0f1ee;
+  font-size: 13px;
+}
+.demo-duration {
+  color: var(--muted);
+  font-size: 11px;
+  margin-left: 12px;
+}
+.demo-toolbar button {
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 6px 12px;
+  color: var(--accent);
+  background: var(--paper);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.demo-toolbar button:hover {
+  background: #dce7e9;
+}
+.demo-toolbar button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.project-demo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+.project-demo figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px 24px;
+  flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+  .requiem-project {
+    padding: 32px 0;
+  }
+  .demo-toolbar {
+    padding: 10px 12px;
+  }
+  .demo-duration {
+    display: block;
+    margin-left: 0;
+  }
+}
