@@ -116,7 +116,7 @@ export default function Home() {
               Email <span aria-hidden="true">↗</span>
             </a>
             <a href="/Owen_Shi_Resume.pdf" target="_blank" rel="noreferrer">
-              Résumé <span className="link-note">PDF ↗</span>
+              Resume <span className="link-note">PDF ↗</span>
             </a>
           </div>
         </section>
@@ -493,7 +493,7 @@ export default function Home() {
                 Science at Harvard College in Cambridge, Massachusetts.
               </p>
               <a href="/Owen_Shi_Resume.pdf" target="_blank" rel="noreferrer">
-                View résumé <span className="link-note">PDF ↗</span>
+                View Resume <span className="link-note">PDF ↗</span>
               </a>
             </div>
             <div>
