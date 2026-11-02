@@ -498,10 +498,34 @@ export default function Home() {
             </div>
             <div>
               <h3>Tools I use</h3>
-              <p>
-                C, C++, Java, Python, TypeScript, React, Next.js, PostgreSQL,
-                Prisma, CMake, and Neovim.
-              </p>
+              <dl className="tools-list">
+                <div>
+                  <dt>Languages</dt>
+                  <dd>
+                    C, C++, Java, Kotlin, Lua, Go, JavaScript, TypeScript,
+                    Python
+                  </dd>
+                </div>
+                <div>
+                  <dt>Web &amp; data</dt>
+                  <dd>
+                    HTML, CSS, React, Next.js, Node.js, Tailwind CSS, Material
+                    UI, PostgreSQL, Prisma, MongoDB
+                  </dd>
+                </div>
+                <div>
+                  <dt>Developer tools</dt>
+                  <dd>VS Code, Android Studio, Neovim, CMake</dd>
+                </div>
+                <div>
+                  <dt>Cloud</dt>
+                  <dd>AWS, Google Cloud, Supabase</dd>
+                </div>
+                <div>
+                  <dt>Hardware design</dt>
+                  <dd>KiCad</dd>
+                </div>
+              </dl>
               <h3>Contact</h3>
               <a href="mailto:2008owenshi@gmail.com">2008owenshi@gmail.com</a>
             </div>

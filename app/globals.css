@@ -682,3 +682,22 @@ footer a {
   flex-wrap: wrap;
   gap: 10px 24px;
 }
+
+.tools-list {
+  margin: 0 0 30px;
+}
+.tools-list div {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.tools-list dt {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.tools-list dd {
+  margin: 3px 0 0;
+  color: #51585d;
+  font-size: 13px;
+  line-height: 1.6;
+}
