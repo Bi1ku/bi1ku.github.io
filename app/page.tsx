@@ -1,4 +1,5 @@
 import ProjectDemo from "./project-demo";
+import ScrollTransitions from "./scroll-transitions";
 import type { ReactNode } from "react";
 
 function External({ href, children }: { href: string; children: ReactNode }) {
@@ -83,6 +84,7 @@ const experience = [
 export default function Home() {
   return (
     <>
+      <ScrollTransitions />
       <a className="skip-link" href="#main">
         Skip to content
       </a>
@@ -132,8 +134,15 @@ export default function Home() {
                 <p className="eyebrow">HUAC Rocketry · IREC 10k</p>
                 <h3>Avionics flight computer</h3>
                 <p className="project-summary">
-                  Designed a custom flight-computer PCB for HUAC Rocketry’s IREC
-                  10k rocket.
+                  Designed a custom flight computer for HUAC Rocketry’s IREC 10k
+                  rocket, with dual-deployment recovery functionality.
+                </p>
+                <p>
+                  The PCB is currently being printed. Stress and simulation
+                  testing are planned. The simulations will use simulated sensor
+                  data to test reliability and validate drogue and main parachute
+                  deployment as part of the rocket’s dual-deployment recovery
+                  system.
                 </p>
                 <p>
                   I designed the schematic and board layout around an STM32F405

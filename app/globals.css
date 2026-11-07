@@ -28,6 +28,7 @@ a {
   color: var(--accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 a:hover {
   text-decoration: underline;
@@ -128,6 +129,18 @@ footer {
 }
 .links a {
   text-decoration: none;
+}
+.avionics-render a img,
+.avionics-documents a img,
+.rocket-media a img,
+.project-demo a img {
+  transition: opacity 180ms ease;
+}
+.avionics-render a:hover img,
+.avionics-documents a:hover img,
+.rocket-media a:hover img,
+.project-demo a:hover img {
+  opacity: 0.94;
 }
 .links a:hover {
   text-decoration: underline;
@@ -507,8 +520,13 @@ footer a {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  html {
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
@@ -631,6 +649,7 @@ footer a {
   font: inherit;
   cursor: pointer;
   white-space: nowrap;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 .demo-toolbar button:hover {
   background: #dce7e9;
